@@ -1,2 +1,13 @@
-For simplicity removed the all protractor stuff
-Also removed the karma runners
+# Starting Node Server
+```
+cd api
+npm install
+npm start
+```
+
+# Starting Web App
+```
+cd web-app
+npm install
+ng serve
+```
