@@ -11,3 +11,6 @@ cd web-app
 npm install
 ng serve
 ```
+
+# Launch the Search App
+localhost:4200

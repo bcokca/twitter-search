@@ -5,7 +5,7 @@
       <h4 class="card-title">{{tweet.userId}}</h4>
       <!-- todo use momentjs to filter the date to show 'seconds/minutes/etc. a go' -->
       <span>{{tweet.createdAt | date}}</span>
-      <p class="card-text">{{tweet.text}}</p>
+      <p class="card-text" [innerHTML]="tweet.text | highlight"></p>
       <!-- todo -- auto link detection -->
       <!--<a href="#" class="card-link">http://t.co/DAploRvCvV</a>-->
     </div>

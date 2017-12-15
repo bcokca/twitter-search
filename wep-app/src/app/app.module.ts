@@ -10,6 +10,7 @@ import {SearchComponent} from './search/search.component';
 import {Routing} from './app.routes';
 import {SearchService} from './search/search.service';
 import { HomeComponent } from './home/home.component';
+import { HighlightPipe } from './search/highlight.pipe';
 
 
 @NgModule({
@@ -17,7 +18,8 @@ import { HomeComponent } from './home/home.component';
     AppComponent,
     NavComponent,
     SearchComponent,
-    HomeComponent
+    HomeComponent,
+    HighlightPipe
   ],
   imports: [
     BrowserModule,
