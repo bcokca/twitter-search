@@ -1,1 +1,4 @@
 .idea/
+/api/.DS_Store
+/api/node_modules/
+/wep-app/node_modules/
