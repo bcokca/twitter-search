@@ -1,0 +1,21 @@
+
+<div class="starter-template" *ngIf="tweets && tweets.length > 0">
+  <div class="card" *ngFor="let tweet of tweets">
+    <div class="card-body">
+      <h4 class="card-title">{{tweet.userId}}</h4>
+      <!-- todo use momentjs to filter the date to show 'seconds/minutes/etc. a go' -->
+      <span>{{tweet.createdAt | date}}</span>
+      <p class="card-text">{{tweet.text}}</p>
+      <!-- todo -- auto link detection -->
+      <!--<a href="#" class="card-link">http://t.co/DAploRvCvV</a>-->
+    </div>
+  </div>
+</div>
+
+
+<!-- when there is search result returns an empty array -->
+<div>
+  <div class="alert alert-info text-center" role="alert" *ngIf="tweets && tweets.length === 0">
+    No results for <b>{{searchKeyword}}</b>
+  </div>
+</div>
