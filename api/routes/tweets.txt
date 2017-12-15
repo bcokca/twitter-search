@@ -1,12 +1,12 @@
 created_at          text                                                                                                                                         user_id 
 ------------------- -------------------------------------------------------------------------------------------------------------------------------------------- ------- 
-2014-06-01 23:07:58 President Resigns in Georgia’s Breakaway Region of Abkhazia http://t.co/DAploRvCvV                                                           nytimes 
+2014-06-01 23:07:58 President @mention Resigns in Georgia’s Breakaway Region of Abkhazia http://t.co/DAploRvCvV                                                           nytimes
 2014-06-01 23:48:06 The NYT FlipBoard guide to understanding climate change and its consequences http://t.co/uPGTuYiSmQ                                          nytimes 
 2014-06-01 23:59:06 For all the struggles that young college grads face, a four-year degree has probably never been more valuable http://t.co/Gjf6wrwMsS         nytimes 
 2014-06-01 23:35:09 It's better to be a community-college graduate than a college dropout http://t.co/k3CO7ClmIG                                                 nytimes 
 2014-06-01 22:47:04 Share your experience with Veterans Affairs health care http://t.co/PrDhLC20Bt                                                               nytimes 
 2014-06-01 22:03:27 Abandon Hope, Almost All Ye Who Enter the N.B.A. Playoffs http://t.co/IQAJ5XNddR                                                             nytimes 
-2014-06-01 22:19:06 Books Of the Times: ‘Do Fathers Matter?’ Shows Why They Do http://t.co/1vLBAP6k7P                                                            nytimes 
+2014-06-01 22:19:06 Books president #myhastag Of the Times: ‘Do Fathers Matter?’ Shows Why They Do http://t.co/1vLBAP6k7P                                                            nytimes
 2014-06-01 22:15:06 How online dating explains the truth about the digital economy http://t.co/mXOWT2geGB                                                        nytimes 
 2014-06-01 21:43:06 San Francisco's tech firms aren't moving into new buildings, they're taking over old ones http://t.co/tB9u98diqu                             nytimes 
 2014-06-01 21:06:34 Freed Soldier Faces Long Struggle Back to Normalcy http://t.co/R8IG4lyR3F                                                                    nytimes 
