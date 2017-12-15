@@ -20,9 +20,9 @@ export class SearchComponent implements OnInit {
 
     this.renderer.listen(this.elementRef.nativeElement, 'click', (event) => {
       if (event.target.classList.contains('hashtag')) {
-        this.router.navigate(['search'], {queryParams: {searchKeyword: event.target.innerHTML}});
+        this.router.navigate(['search'], {queryParams: {searchKeyword: event.target.innerHTML.substring(1), hashtag: true}});
       } else if (event.target.classList.contains('mention')) {
-        this.router.navigate(['search'], {queryParams: {searchKeyword: event.target.innerHTML}});
+        this.router.navigate(['search'], {queryParams: {searchKeyword: decodeURI(event.target.innerHTML.substring(1)), mention: true}});
       }
     });
 

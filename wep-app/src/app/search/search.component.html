@@ -14,8 +14,6 @@
 
 
 <!-- when there is search result returns an empty array -->
-<div>
-  <div class="alert alert-info text-center" role="alert" *ngIf="tweets && tweets.length === 0">
-    No results for <b>{{searchKeyword}}</b>
-  </div>
+<div class="alert alert-info text-center" role="alert" *ngIf="tweets && tweets.length === 0">
+  No results for <b>{{searchKeyword}}</b>
 </div>
