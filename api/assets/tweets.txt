@@ -1,6 +1,6 @@
 created_at          text                                                                                                                                         user_id 
 ------------------- -------------------------------------------------------------------------------------------------------------------------------------------- ------- 
-2014-06-01 23:07:58 President @mention Resigns in Georgia’s Breakaway Region of Abkhazia http://t.co/DAploRvCvV                                                           nytimes
+2014-06-01 23:07:58 President @mention Resigns2 in Georgia’s Breakaway Region of Abkhazia http://t.co/DAploRvCvV                                                           nytimes
 2014-06-01 23:48:06 The NYT FlipBoard guide to understanding climate change and its consequences http://t.co/uPGTuYiSmQ                                          nytimes 
 2014-06-01 23:59:06 For all the struggles that young college grads face, a four-year degree has probably never been more valuable http://t.co/Gjf6wrwMsS         nytimes 
 2014-06-01 23:35:09 It's better to be a community-college graduate than a college dropout http://t.co/k3CO7ClmIG                                                 nytimes 

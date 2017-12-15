@@ -18,8 +18,12 @@ export class SearchService {
   constructor(private http: Http) {
   }
 
-  search(searchKeyword: string): Observable<Tweet[]> {
-    return this.http.get(`${this.searchApiUrl}?keyword=${searchKeyword}`)
+  search(searchKeyword: string, node?: string): Observable<Tweet[]> {
+    let url = `${this.searchApiUrl}?keyword=${searchKeyword}`;
+    if (node) {
+      url += '&' + node + '=true';
+    }
+    return this.http.get(url)
       .map(res => {
         return res.json().map(item => {
           return new Tweet(item.createdAt, item.text, item.userId);

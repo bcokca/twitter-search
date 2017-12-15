@@ -11,6 +11,7 @@ import {ActivatedRoute, Router} from '@angular/router';
 export class SearchComponent implements OnInit {
   private tweets: Tweet[];
   private searchKeyword = '';
+  private node;
 
   constructor(private elementRef: ElementRef, private searchService: SearchService,
               private route: ActivatedRoute, private renderer: Renderer2, private router: Router) {
@@ -29,12 +30,13 @@ export class SearchComponent implements OnInit {
     this.route.queryParams
       .subscribe(params => {
         this.searchKeyword = params['searchKeyword'];
+        this.node = params['hashtag'] ? 'hashtag' : params['mention'] ? 'mention' : null;
         this.doSearch();
       });
   }
 
   doSearch() {
-    this.searchService.search(this.searchKeyword).subscribe(tweets => {
+    this.searchService.search(this.searchKeyword, this.node).subscribe(tweets => {
       this.tweets = tweets;
     });
 
