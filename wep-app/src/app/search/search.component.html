@@ -1,3 +1,7 @@
+<div *ngIf="node === 'hashtag' || node === 'mention'" class="text-center">
+  <h3>Search results for <span class="text-info">{{node === 'hashtag' ? '#' : '@'}}</span><span class="text-info">{{searchKeyword}}</span></h3>
+</div>
+
 
 <div class="starter-template" *ngIf="tweets && tweets.length > 0">
   <div class="card" *ngFor="let tweet of tweets">
@@ -6,8 +10,6 @@
       <!-- todo use momentjs to filter the date to show 'seconds/minutes/etc. a go' -->
       <span>{{tweet.createdAt | date}}</span>
       <p class="card-text" [innerHTML]="tweet.text | highlight"></p>
-      <!-- todo -- auto link detection -->
-      <!--<a href="#" class="card-link">http://t.co/DAploRvCvV</a>-->
     </div>
   </div>
 </div>

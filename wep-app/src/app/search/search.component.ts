@@ -1,4 +1,4 @@
-import {Component, ElementRef, OnInit, Renderer2} from '@angular/core';
+import {ChangeDetectorRef, Component, ElementRef, OnInit, Renderer2} from '@angular/core';
 import {SearchService} from './search.service';
 import {Tweet} from '../app.models';
 import {ActivatedRoute, Router} from '@angular/router';
@@ -21,9 +21,13 @@ export class SearchComponent implements OnInit {
 
     this.renderer.listen(this.elementRef.nativeElement, 'click', (event) => {
       if (event.target.classList.contains('hashtag')) {
-        this.router.navigate(['search'], {queryParams: {searchKeyword: event.target.innerHTML.substring(1), hashtag: true}});
+        this.searchKeyword = event.target.innerHTML.substring(1);
+        this.router.navigate(['search'], {queryParams: {searchKeyword: decodeURI(this.searchKeyword), hashtag: true}});
       } else if (event.target.classList.contains('mention')) {
-        this.router.navigate(['search'], {queryParams: {searchKeyword: decodeURI(event.target.innerHTML.substring(1)), mention: true}});
+        this.searchKeyword = event.target.innerHTML.substring(1);
+        this.router.navigate(['search'], {queryParams: {searchKeyword: decodeURI(this.searchKeyword), mention: true}});
+      } else if (event.target.classList.contains('tiny-url')) {
+        window.open(event.target.innerHTML);
       }
     });
 

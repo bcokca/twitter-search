@@ -10,6 +10,7 @@ const TWEET_TEXT_LENGTH = 140;
 //the other thing that we should take care of is language support
 //but for this assignment lets assume users locals are english and tweets are all in english
 const STOP_WORDS = ['a', 'an', 'the', 'in', 'on', 'and', 'of', 'at'];
+const cache = {};
 
 /**
  *
@@ -88,6 +89,11 @@ exports.searchMention = function (keyword, from, size, callback) {
  * @param callback
  */
 function readTweets(callback) {
+    if(cache.tweets && cache.tweets.length > 0){
+        callback(null, cache.tweets);
+        return;
+    }
+
     try {
         fs.readFile(path.join(__dirname, '/../assets/tweets.txt'), function (err, data) {
             if (err) throw err;
@@ -98,8 +104,9 @@ function readTweets(callback) {
             }
             //remove the first two rows(column header and dashes)
             array.splice(0, 2);
-
-            callback(null, array);
+            //cache the tweets for next read
+            cache.tweets = array;
+            callback(null, cache.tweets);
         });
     } catch (exception) {
         callback(exception, null);
