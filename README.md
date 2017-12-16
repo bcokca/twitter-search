@@ -1,16 +1,15 @@
-# Starting Node Server
+## Starting the Node Server
 ```
 cd api
 npm install
 npm start
 ```
 
-# Starting Web App
+## Running the Web App with development server
 ```
 cd web-app
 npm install
 ng serve
 ```
 
-# Launch the Search App
-localhost:4200
+Navigate to `http://localhost:4200/`.

@@ -6,6 +6,9 @@ const model = require('../models/Tweet');
 
 const DATE_LENGTH = 20;
 const TWEET_TEXT_LENGTH = 140;
+//can be many more words too
+//the other thing that we should take care of is language support
+//but for this assignment lets assume users locals are english and tweets are all in english
 const STOP_WORDS = ['a', 'an', 'the', 'in', 'on', 'and', 'of', 'at'];
 
 /**
@@ -22,24 +25,21 @@ exports.searchHandler = function (keyword, from, size, callback) {
     readTweets(function (err, array) {
         if (err) callback(err, null);
         var index = 0;
-        array.forEach(function (tweet) {
-            if (tweet.length > DATE_LENGTH + TWEET_TEXT_LENGTH + 1) {
-                var _tweet = resolveTweet(tweet);
+        array.forEach(function (item) {
+            if (item.length > DATE_LENGTH + TWEET_TEXT_LENGTH + 1) {
+                var tweet = resolveTweet(item);
                 if (!keyword) {
-                    tweets.push(_tweet);
+                    tweets.push(tweet);
                 } else {
-                    var score = getRelevanceScore(keyword, _tweet);
+                    var score = getRelevanceScore(keyword, tweet);
                     if (score > 0) {
                         scoreMap[index++] = score;
-                        tweets.push(_tweet);
+                        tweets.push(tweet);
                     }
                 }
             }
         });
-        if (scoreMap && scoreMap.length > 0) {
-            sortByRelevance(tweets, scoreMap);
-        }
-
+        sortByRelevance(tweets, scoreMap);
         callback(null, tweets.slice(from, size));
     });
 };
@@ -84,6 +84,7 @@ exports.searchMention = function (keyword, from, size, callback) {
 
 /**
  * reads the tweets from the tweets.txt file
+ * this is a very inefficient way of fetching tweets but for this assignment we will use the .txt file as our database
  * @param callback
  */
 function readTweets(callback) {
@@ -166,6 +167,6 @@ function sortByRelevance(list, scoreMap) {
 function resolveTweet(tweet) {
     var createdDate = tweet.slice(0, DATE_LENGTH).trim();
     var text = tweet.slice(DATE_LENGTH, TWEET_TEXT_LENGTH + 1).trim();
-    var userId = tweet.slice(TWEET_TEXT_LENGTH + 1).trim();
+    var userId = tweet.slice(DATE_LENGTH + TWEET_TEXT_LENGTH + 1).trim();
     return new model.Tweet(createdDate, text, userId);
 }

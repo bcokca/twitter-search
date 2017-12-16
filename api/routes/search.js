@@ -8,7 +8,7 @@ const cache = {};
 router.get('/', function (req, res, next) {
     var keyword = decodeURIComponent(req.query['keyword']);
 
-    //todo lazy loading parameters : out of scope
+    //todo lazy loading parameters : out of scope for this assignment
     const size = req.query['size'] || 25;
     const from = req.query['from'] || 0;
 
