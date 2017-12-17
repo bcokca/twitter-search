@@ -20,65 +20,61 @@ const cache = {};
  * @param callback
  */
 exports.searchHandler = function (keyword, from, size, callback) {
-    const tweets = [];
+    const result = [];
     const scoreMap = {};
 
-    readTweets(function (err, array) {
+    readTweets(function (err, tweets) {
         if (err) callback(err, null);
-        var index = 0;
-        array.forEach(function (item) {
-            if (item.length > DATE_LENGTH + TWEET_TEXT_LENGTH + 1) {
-                var tweet = resolveTweet(item);
-                if (!keyword) {
-                    tweets.push(tweet);
-                } else {
-                    var score = getRelevanceScore(keyword, tweet);
-                    if (score > 0) {
-                        scoreMap[index++] = score;
-                        tweets.push(tweet);
-                    }
-                }
+        if (!keyword) {
+            callback(null, tweets.slice(from, size));
+            return;
+        }
+
+        tweets.forEach(function (tweet) {
+            var score = getRelevanceScore(keyword, tweet.text);
+            if (score > 0) {
+                scoreMap[tweet.uuid] = score;
+                result.push(tweet);
             }
         });
-        sortByRelevance(tweets, scoreMap);
-        callback(null, tweets.slice(from, size));
+
+        //sort the result with scoreMap
+        result.sort(function (a, b) {
+            return scoreMap[b.uuid] - scoreMap[a.uuid];
+        });
+
+        callback(null, result.slice(from, size));
     });
 };
 
 //this method is almost identical with searchMention function but there might be some distinct extra work for hashtag and
 //mention features. So its better to keep them in separate functions
 exports.searchHashTag = function (keyword, from, size, callback) {
-    const tweets = [];
-    readTweets(function (err, array) {
+    const result = [];
+    readTweets(function (err, tweets) {
         if (err) callback(err, null);
-        array.forEach(function (tweet) {
-            if (tweet.length > DATE_LENGTH + TWEET_TEXT_LENGTH + 1) {
-                var _tweet = resolveTweet(tweet);
-                if (_tweet.text.indexOf('#' + keyword) > -1) {
-                    tweets.push(_tweet);
-                }
+        tweets.forEach(function (tweet) {
+            if (tweet.text.indexOf('#' + keyword) > -1) {
+                result.push(tweet);
             }
         });
 
-        callback(null, tweets.slice(from, size));
+        callback(null, result.slice(from, size));
     });
 
 };
 
 exports.searchMention = function (keyword, from, size, callback) {
-    const tweets = [];
-    readTweets(function (err, array) {
+    const result = [];
+    readTweets(function (err, tweets) {
         if (err) callback(err, null);
-        array.forEach(function (tweet) {
-            if (tweet.length > DATE_LENGTH + TWEET_TEXT_LENGTH + 1) {
-                var _tweet = resolveTweet(tweet);
-                if (_tweet.text.indexOf('@' + keyword) > -1) {
-                    tweets.push(_tweet);
-                }
+        tweets.forEach(function (tweet) {
+            if (tweet.text.indexOf('@' + keyword) > -1) {
+                result.push(tweet);
             }
         });
 
-        callback(null, tweets.slice(from, size));
+        callback(null, result.slice(from, size));
     });
 };
 
@@ -86,10 +82,13 @@ exports.searchMention = function (keyword, from, size, callback) {
 /**
  * reads the tweets from the tweets.txt file
  * this is a very inefficient way of fetching tweets but for this assignment we will use the .txt file as our database
+ * we can use a more aggressive caching. Instead of waiting for the method to be executed we could cache the tweets
+ * in the initialization. With that we would save time for the first call. But again that will also require some cache
+ * eviction strategy for data consistency. We need to update the cache or invalidate it when tweets file changed
  * @param callback
  */
 function readTweets(callback) {
-    if(cache.tweets && cache.tweets.length > 0){
+    if (cache.tweets && cache.tweets.length > 0) {
         callback(null, cache.tweets);
         return;
     }
@@ -97,6 +96,7 @@ function readTweets(callback) {
     try {
         fs.readFile(path.join(__dirname, '/../assets/tweets.txt'), function (err, data) {
             if (err) throw err;
+            var tweets = [];
 
             const array = data.toString().split("\n");
             if (!Array.isArray(array) && array.length < 1) {
@@ -105,7 +105,13 @@ function readTweets(callback) {
             //remove the first two rows(column header and dashes)
             array.splice(0, 2);
             //cache the tweets for next read
-            cache.tweets = array;
+            for (var i = 0; i < array.length; i++) {
+                var item = array[i];
+                if (item.length > DATE_LENGTH + TWEET_TEXT_LENGTH + 1) {
+                    tweets.push(resolveTweet(item));
+                }
+            }
+            cache.tweets = tweets;
             callback(null, cache.tweets);
         });
     } catch (exception) {
@@ -123,12 +129,12 @@ function readTweets(callback) {
  * STOP WORDS are 1 point // it can even be ignored
  *
  * @param keyword: string
- * @param tweet : Tweet
+ * @param text : string
  * @returns {number}: score of the provided tweet
  */
-function getRelevanceScore(keyword, tweet) {
+function getRelevanceScore(keyword, text) {
     var score = 0;
-    var text = tweet.text
+    text = text
         .toLowerCase();
     //.replace(/\W/g, ''); //reduces entropy
 
@@ -158,22 +164,10 @@ function getRelevanceScore(keyword, tweet) {
     return score;
 }
 
-/**
- * sort the given list with the score map
- * @param list: list of
- * @param scoreMap
- */
-function sortByRelevance(list, scoreMap) {
-    if (Array.isArray(list) && list.length > 1) {
-        list.sort(function (a, b) {
-            return scoreMap[list.indexOf(b)] - scoreMap[list.indexOf(a)];
-        });
-    }
-}
-
-function resolveTweet(tweet) {
-    var createdDate = tweet.slice(0, DATE_LENGTH).trim();
-    var text = tweet.slice(DATE_LENGTH, TWEET_TEXT_LENGTH + 1).trim();
-    var userId = tweet.slice(DATE_LENGTH + TWEET_TEXT_LENGTH + 1).trim();
+//instantiate a tweet instance with text line and return it
+function resolveTweet(item) {
+    var createdDate = item.slice(0, DATE_LENGTH).trim();
+    var text = item.slice(DATE_LENGTH, DATE_LENGTH + TWEET_TEXT_LENGTH + 1).trim();
+    var userId = item.slice(DATE_LENGTH + TWEET_TEXT_LENGTH + 1).trim();
     return new model.Tweet(createdDate, text, userId);
 }
