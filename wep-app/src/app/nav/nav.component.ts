@@ -8,7 +8,8 @@ import {Router} from '@angular/router';
 })
 export class NavComponent implements OnInit {
 
-  private searchKeyword: string = '';
+  private searchKeyword = '';
+
   constructor(private router: Router) {
   }
 

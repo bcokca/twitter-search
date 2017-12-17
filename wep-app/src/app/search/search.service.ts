@@ -1,6 +1,6 @@
 import {Injectable} from '@angular/core';
 import {Http} from '@angular/http';
-import {Observable} from 'rxjs';
+import {Observable} from 'rxjs/Observable';
 import 'rxjs/add/operator/map';
 import 'rxjs/add/operator/debounceTime';
 import 'rxjs/add/operator/distinctUntilChanged';
@@ -26,7 +26,7 @@ export class SearchService {
     return this.http.get(url)
       .map(res => {
         return res.json().map(item => {
-          return new Tweet(item.createdAt, item.text, item.userId);
+          return new Tweet(item.createdAt, item.text, item.userId, item.uuid);
         });
       });
   }

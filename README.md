@@ -8,8 +8,9 @@ npm start
 ## Running the Web App with development server
 ```
 cd web-app
+npm install -g @angular/cli
 npm install
-ng serve
+npm start
 ```
 
 Navigate to `http://localhost:4200/`.
