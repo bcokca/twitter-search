@@ -26,7 +26,7 @@ exports.searchHandler = function (keyword, from, size, callback) {
     readTweets(function (err, tweets) {
         if (err) callback(err, null);
         if (!keyword) {
-            callback(null, tweets.slice(from, size));
+            callback(null, {total: tweets.length, list: tweets.slice(from, size)});
             return;
         }
 
@@ -43,7 +43,7 @@ exports.searchHandler = function (keyword, from, size, callback) {
             return scoreMap[b.uuid] - scoreMap[a.uuid];
         });
 
-        callback(null, result.slice(from, size));
+        callback(null, {total: result.length, list: result.slice(from, size)});
     });
 };
 
@@ -59,7 +59,7 @@ exports.searchHashTag = function (keyword, from, size, callback) {
             }
         });
 
-        callback(null, result.slice(from, size));
+        callback(null, {total: result.length, list: result.slice(from, size)});
     });
 
 };
@@ -74,7 +74,7 @@ exports.searchMention = function (keyword, from, size, callback) {
             }
         });
 
-        callback(null, result.slice(from, size));
+        callback(null, {total: result.length, list: result.slice(from, size)});
     });
 };
 
