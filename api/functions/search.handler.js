@@ -109,6 +109,40 @@ function readTweets(callback) {
                 var item = array[i];
                 if (item.length > DATE_LENGTH + TWEET_TEXT_LENGTH + 1) {
                     tweets.push(resolveTweet(item));
+                } else {
+                    // assuming the first 20 characters are always representing date
+                    var createdDate = item.slice(0, DATE_LENGTH).trim();
+                    item = item.replace(createdDate, '');
+
+                    var text = '';
+                    var flag = false;
+
+                    while (true) {
+                        var dateRegex = /^\d{4}\-\d{2}\-\d{2}\ \d{2}\:\d{2}\:\d{2}$/;
+                        if (dateRegex.test(item.slice(0, DATE_LENGTH -1))) {
+                            break;
+                        } else {
+                            text += ' ' + item.slice(0, item.length).trim();
+                        }
+                        // check boundaries
+                        if (i < array.length - 1) {
+                            item = array[++i];
+                        } else {
+                            flag = true;
+                            break;
+                        }
+                    }
+
+                    if (!flag && text) {
+                        text = text.trim();
+                        var textArr = text.split(' ');
+                        var userId = textArr[textArr.length - 1];
+                        if(userId){
+                            // remove the user id from the text
+                            text = text.substring(0, text.indexOf(userId));
+                            tweets.push(new model.Tweet(createdDate, text, userId));
+                        }
+                    }
                 }
             }
             cache.tweets = tweets;
